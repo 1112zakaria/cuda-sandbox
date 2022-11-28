@@ -12,7 +12,7 @@ void print_current_device() {
     int device;
 
     if (cudaGetDevice(&device) == 0) {
-        printf("Current Device: %d\n", device);
+        printf("Current Device ID: %d\n", device);
     }
 }
 
