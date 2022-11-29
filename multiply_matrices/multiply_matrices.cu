@@ -45,6 +45,12 @@ int generate_matrix(matrix_t* matrix) {
     return 0;
 }
 
+int generate_result_matrix(matrix_t* a, matrix_t* b, matrix_t* result) {
+    set_result_matrix_dimensions(a, b, result);
+    allocate_matrix_memory(result);
+    return 0;
+}
+
 int print_matrix(matrix_t* matrix) {
     for (uint16_t i=0; i<matrix->rows; i++) {
         printf("[ ");
@@ -57,6 +63,24 @@ int print_matrix(matrix_t* matrix) {
     return 0;
 }
 
+uint16_t calculate_result_element(uint16_t row, uint16_t column, matrix_t* a, matrix_t* b) {
+    uint16_t max = a->columns;
+    uint16_t sum = 0;
+    for (uint16_t count=0; count<max; count++) {
+        sum += a->data[row][count] * b->data[count][column];
+    }
+    return sum;
+}
+
+int single_thread_matrix_multiply(matrix_t* a, matrix_t* b, matrix_t* result) {
+    for (uint16_t i=0; i<result->rows; i++) {
+        for (uint16_t j=0; j<result->columns; j++) {
+            result->data[i][j] = calculate_result_element(i, j, a, b);
+        }
+    }
+    return 0;
+}
+
 int main() {
     /*
     TODO: perform matrix multplication using
@@ -65,7 +89,7 @@ int main() {
         - multithreading
         - GPU (figure out techniques?)
     */
-    matrix_t a, b;
+    matrix_t a, b, result;
 
     a.rows = 10;
     a.columns = 10;
@@ -75,8 +99,17 @@ int main() {
 
     generate_matrix(&a);
     generate_matrix(&b);
+    generate_matrix(&result);
+    set_result_matrix_dimensions(&a, &b, &result);
 
     print_matrix(&a);
+    printf("\n");
+    print_matrix(&b);
+    printf("\n");
+
+    printf("single_thread_matrix_multiply()\n");
+    single_thread_matrix_multiply(&a, &b, &result);
+    print_matrix(&result);
 
     return 0;
 }
