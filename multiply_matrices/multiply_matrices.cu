@@ -2,6 +2,7 @@
 #include <stdio.h>
 //#include <inttypes.h>
 #include <stdint.h>
+#include <time.h>
 
 // Structure definitions
 typedef struct matrix_ {
@@ -90,26 +91,32 @@ int main() {
         - GPU (figure out techniques?)
     */
     matrix_t a, b, result;
+    time_t start, end;
 
-    a.rows = 10;
-    a.columns = 10;
+    a.rows = 100;
+    a.columns = 100;
 
-    b.rows = 10;
-    b.columns = 10;
+    b.rows = 100;
+    b.columns = 100;
 
     generate_matrix(&a);
     generate_matrix(&b);
 
     generate_result_matrix(&a, &b, &result);
     
-    print_matrix(&a);
-    printf("\n");
-    print_matrix(&b);
-    printf("\n");
+    // print_matrix(&a);
+    // printf("\n");
+    // print_matrix(&b);
+    // printf("\n");
 
     printf("single_thread_matrix_multiply()\n");
+    time(&start);
     single_thread_matrix_multiply(&a, &b, &result);
-    print_matrix(&result);
+    time(&end);
+    // print_matrix(&result);
+
+    // FIXME: it no work...
+    printf("Time to perform: %f seconds\n", difftime(end, start));
 
     return 0;
 }
