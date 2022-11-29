@@ -99,9 +99,9 @@ int main() {
 
     generate_matrix(&a);
     generate_matrix(&b);
-    generate_matrix(&result);
-    set_result_matrix_dimensions(&a, &b, &result);
 
+    generate_result_matrix(&a, &b, &result);
+    
     print_matrix(&a);
     printf("\n");
     print_matrix(&b);
